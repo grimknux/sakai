@@ -43,12 +43,12 @@ const profile = ref([
                 <div class="min-w-0">
                     <!-- Small screens (default): abbreviation -->
                     <span class="inline sm:hidden font-semibold truncate text-xs">
-                        <div class="text-sm">OPMSS</div>
+                        <div class="text-sm">ISCHED</div>
                     </span>
 
                     <!-- sm and up: full name -->
                     <span class="hidden sm:inline font-semibold truncate">
-                        Online Preventive Maintenance Service System <br />
+                        ICT Schedule System <br />
                         <div class="text-xs">Department of Health - Ilocos Center for Health Development</div>
                     </span>
                 </div>

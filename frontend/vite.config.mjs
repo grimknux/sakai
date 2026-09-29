@@ -16,30 +16,29 @@ function getGitVersion() {
     }
 }
 
-
 export default defineConfig({
     base: '/',
 
     server: {
-        host: 'opmss.dev.local',
-        port: 4444,
+        host: 'sakai.dev.local',
+        port: 4747,
         https: {
             key: fs.readFileSync('C:/laragon/etc/ssl/laragon.key'),
             cert: fs.readFileSync('C:/laragon/etc/ssl/laragon.crt')
         },
         proxy: {
             '/api': {
-                target: 'https://opmss.dev.local',
+                target: 'https://sakai.dev.local',
                 changeOrigin: false,
                 secure: false
             },
             '/viewer': {
-                target: 'https://opmss.dev.local',
+                target: 'https://sakai.dev.local',
                 changeOrigin: false,
                 secure: false
             },
             '/download': {
-                target: 'https://opmss.dev.local',
+                target: 'https://sakai.dev.local',
                 changeOrigin: false,
                 secure: false
             }

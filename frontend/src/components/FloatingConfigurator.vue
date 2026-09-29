@@ -17,13 +17,13 @@ const { toggleDarkMode, isDarkTheme } = useLayout();
                 <div class="min-w-0">
                     <!-- Small screens (default): abbreviation -->
                     <span class="inline sm:hidden font-semibold truncate text-xs">
-                        <div class="text-sm">Online Preventive Maintenance Service System</div>
+                        <div class="text-sm">ICT Schedule System</div>
                         <small class="text-xs">DOH - Ilocos Center for Health Development</small>
                     </span>
 
                     <!-- sm and up: full name -->
                     <span class="hidden sm:inline font-semibold truncate">
-                        Online Preventive Maintenance Service System<br />
+                        ICT Schedule System<br />
                         <div class="text-xs">Department of Health - Ilocos Center for Health Development</div>
                     </span>
                 </div>
