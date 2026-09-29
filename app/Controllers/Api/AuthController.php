@@ -467,7 +467,12 @@ class AuthController extends ResourceController
 
             $emailSvc = service('email');
             $emailSvc->setTo($user['email']);
-            $emailSvc->setSubject('Reset your OPMSS password');
+            $brand = config('Branding');
+            $appName = esc($brand->appName);
+            $orgName = esc($brand->orgName);
+
+            $emailSvc->setFrom((string) config('Email')->fromEmail, $brand->appName);
+            $emailSvc->setSubject("Reset your {$brand->appName} password");
 
             $safeName = trim(($user['firstname'] ?? '') . ' ' . ($user['lastname'] ?? ''));
             $safeName = $safeName ?: $user['username'];
@@ -490,7 +495,7 @@ class AuthController extends ResourceController
 
             <tr>
             <td style='background:#2563eb;color:#ffffff;padding:20px 30px;font-size:20px;font-weight:bold;text-align:center;'>
-            OPMSS Password Reset
+            {$appName} Password Reset
             </td>
             </tr>
 
@@ -500,7 +505,7 @@ class AuthController extends ResourceController
             <p>Hello <strong>{$safeName}</strong>,</p>
 
             <p>
-            We received a request to reset your password for your <strong>OPMSS</strong> account.
+            We received a request to reset your password for your <strong>{$appName}</strong> account.
             Click the button below to set a new password.
             </p>
 
@@ -533,8 +538,8 @@ class AuthController extends ResourceController
 
             <tr>
             <td style='background:#f1f3f5;padding:20px;font-size:12px;color:#666;text-align:center;'>
-            <p style='margin:0;'>This email was sent automatically by the OPMSS system.</p>
-            <p style='margin:5px 0 0 0;'>Department of Health – Ilocos CHD</p>
+            <p style='margin:0;'>This email was sent automatically by {$appName}.</p>
+            <p style='margin:5px 0 0 0;'>{$orgName}</p>
             </td>
             </tr>
 

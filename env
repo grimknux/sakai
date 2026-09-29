@@ -67,3 +67,11 @@
 #--------------------------------------------------------------------
 
 # logger.threshold = 4
+
+#--------------------------------------------------------------------
+# BRANDING (names shown in emails; see app/Config/Branding.php)
+#--------------------------------------------------------------------
+branding.appName      = 'ICT Schedule System'
+branding.appShortName = 'ISCHED'
+branding.orgName      = 'Department of Health - Ilocos Center for Health Development'
+branding.orgShortName = 'DOH-ICHD'
