@@ -34,10 +34,7 @@ class Cors extends BaseConfig
          *   - ['http://localhost:8080']
          *   - ['https://www.example.com']
          */
-        'allowedOrigins' => [
-            'https://opmss.dev.local',
-            'https://opmss.dev.local:4444'
-        ],
+        'allowedOrigins' => [],   // set via CORS_ALLOWED_ORIGINS (see constructor)
 
         /**
          * Origin regex patterns for the `Access-Control-Allow-Origin` header.
@@ -119,4 +116,19 @@ class Cors extends BaseConfig
          */
         'maxAge' => 7200,
     ];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Comma-separated list in .env, e.g.
+        //   CORS_ALLOWED_ORIGINS = "https://app.example.com,https://admin.example.com"
+        // Falls back to FRONTEND_URL. Leave both empty for same-origin only.
+        $origins = (string) env('CORS_ALLOWED_ORIGINS', env('FRONTEND_URL', ''));
+
+        $this->default['allowedOrigins'] = array_values(array_filter(array_map(
+            static fn (string $o): string => rtrim(trim($o), '/'),
+            explode(',', $origins)
+        )));
+    }
 }
