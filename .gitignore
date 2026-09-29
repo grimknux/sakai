@@ -151,3 +151,4 @@ pnpm-debug.log*
 # Env files (frontend)
 frontend/.env
 frontend/.env.*
+!frontend/.env.example
