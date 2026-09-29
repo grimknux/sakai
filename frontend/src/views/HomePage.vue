@@ -47,7 +47,7 @@ const groupedStats = computed(() => [
                 <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                     <div class="flex-1">
                         <div class="text-surface-500 font-medium mb-2">Welcome</div>
-                        <h1 class="text-3xl lg:text-4xl font-bold m-0 mb-3">Online Preventive Maintenance Service System</h1>
+                        <h1 class="text-3xl lg:text-4xl font-bold m-0 mb-3">ICT Schedule System</h1>
                         <p class="text-surface-600 dark:text-surface-300 text-lg leading-relaxed m-0 mb-4">Manage preventive maintenance schedules, track equipment inspection records, and monitor service compliance in one place.</p>
 
                         <div class="flex flex-wrap gap-2">

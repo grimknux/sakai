@@ -35,96 +35,12 @@ const router = createRouter({
                     meta: { title: 'Dashboard', permission: 'dashboard.access' }
                 },
 
-                // PMS ROUTES (also add to sidebar menu if you want them visible there)
-                {
-                    path: 'pms/records',
-                    name: 'pms.records',
-                    component: () => import('@/views/pms/PmsRecordsPage.vue'),
-                    meta: { title: 'PMS Records', permission: 'pms.record.access' }
-                },
-                {
-                    path: 'pms/records/create',
-                    name: 'pms.records.create',
-                    component: () => import('@/views/pms/PmsRecordCreatePage.vue'),
-                    meta: { title: 'Create PMS Record', permission: 'pms.record.create' }
-                },
-                {
-                    path: 'pms/schedules',
-                    name: 'pms.schedules',
-                    component: () => import('@/views/pms/PmsSchedulePage.vue'),
-                    meta: { title: 'PMS Schedules', permission: 'pms.schedule.access' }
-                },
-                {
-                    path: 'pms/questions',
-                    name: 'pms.questions',
-                    component: () => import('@/views/pms/PmsQuestionPage.vue'),
-                    meta: { title: 'PMS Questions', permission: 'pms.question.access' }
-                },
-
-                // REPORT ROUTES (also add to sidebar menu if you want them visible there)
-                {
-                    path: 'report/pms/records',
-                    name: 'report.pms.records',
-                    component: () => import('@/views/report/PmsRecordReportPage.vue'),
-                    meta: { title: 'PMS Records Report', permission: 'pms.record.access.report' }
-                },
-
-                // ASSSET ROUTES (also add to sidebar menu if you want them visible there)
-                {
-                    path: 'assets/inventory',
-                    name: 'assets.inventory',
-                    component: () => import('@/views/assets/InventoryPage.vue'),
-                    meta: { title: 'Inventory', permission: 'inventory.access' }
-                },
-                {
-                    path: 'assets/softwares',
-                    name: 'assets.softwares',
-                    component: () => import('@/views/assets/SoftwarePage.vue'),
-                    meta: { title: 'Softwares', permission: 'softwares.access' }
-                },
-                {
-                    path: 'assets/device-types',
-                    name: 'assets.deviceTypes',
-                    component: () => import('@/views/assets/DeviceTypePage.vue'),
-                    meta: { title: 'Device Types', permission: 'device_types.access' }
-                },
-                {
-                    path: 'assets/software-types',
-                    name: 'assets.softwareTypes',
-                    component: () => import('@/views/assets/SoftwareTypePage.vue'),
-                    meta: { title: 'Software Types', permission: 'software_types.access' }
-                },
-                {
-                    path: 'assets/license-types',
-                    name: 'assets.licenseTypes',
-                    component: () => import('@/views/assets/LicenseTypePage.vue'),
-                    meta: { title: 'License Types', permission: 'license_types.access' }
-                },
-
                 // ADMIN ROUTES (also add to sidebar menu if you want them visible there)
                 {
                     path: 'admin/users',
                     name: 'users',
                     component: UsersPage,
                     meta: { title: 'Users', permission: 'users.access' }
-                },
-                {
-                    path: 'admin/org/sections',
-                    name: 'admin.org.section',
-                    component: () => import('@/views/admin/org/SectionsPage.vue'),
-                    meta: { title: 'Sections', permission: 'sections.access' }
-                },
-                {
-                    path: 'admin/org/divisions',
-                    name: 'admin.org.division',
-                    component: () => import('@/views/admin/org/DivisionsPage.vue'),
-                    meta: { title: 'Divisions', permission: 'divisions.access' }
-                },
-                {
-                    path: 'admin/org/buildings',
-                    name: 'admin.org.building',
-                    component: () => import('@/views/admin/org/BuildingsPage.vue'),
-                    meta: { title: 'Buildings', permission: 'buildings.access' }
                 },
                 {
                     path: 'admin/roles',
@@ -267,7 +183,7 @@ router.beforeEach(async (to) => {
 });
 
 router.afterEach((to) => {
-    const baseTitle = 'Online Preventive Maintenance Service System';
+    const baseTitle = 'ICT Schedule System';
 
     if (to.meta.title) {
         document.title = `${to.meta.title} | ${baseTitle}`;
