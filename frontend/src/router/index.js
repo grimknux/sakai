@@ -3,6 +3,7 @@ import AppLayout from '@/layout/AppLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 import { me } from '@/api/auth';
+import { APP_NAME } from '@/config/app';
 import Dashboard from '../views/Dashboard.vue';
 import HomePage from '../views/HomePage.vue';
 import UsersPage from '../views/UsersPage.vue';
@@ -183,7 +184,7 @@ router.beforeEach(async (to) => {
 });
 
 router.afterEach((to) => {
-    const baseTitle = 'ICT Schedule System';
+    const baseTitle = APP_NAME;
 
     if (to.meta.title) {
         document.title = `${to.meta.title} | ${baseTitle}`;

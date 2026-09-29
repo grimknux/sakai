@@ -1,4 +1,5 @@
 <script setup>
+import { APP_SHORT_NAME } from '@/config/app';
 import { getCsrf, login, me } from '@/api/auth';
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -172,7 +173,7 @@ onMounted(async () => {
 
                             <Button label="Sign In" type="submit" class="w-full" :loading="loading" :disabled="loading" />
 
-                            <div class="text-sm text-surface-600 dark:text-surface-300 mt-4 text-center">&copy; {{ new Date().getFullYear() }} <span class="text-primary font-bold">OPMSS</span> {{ version }}</div>
+                            <div class="text-sm text-surface-600 dark:text-surface-300 mt-4 text-center">&copy; {{ new Date().getFullYear() }} <span class="text-primary font-bold">{{ APP_SHORT_NAME }}</span> {{ version }}</div>
                         </form>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 <script setup>
+import { APP_LOGO, APP_NAME, ORG_NAME } from '@/config/app';
 import AppConfigurator from '@/layout/AppConfigurator.vue';
 import { useLayout } from '@/layout/composables/layout';
 
@@ -11,20 +12,20 @@ const { toggleDarkMode, isDarkTheme } = useLayout();
             <!-- Left: Name -->
             <div class="flex items-center gap-3 min-w-0">
                 <!-- Logo -->
-                <img src="/layout/img/dohlogo.png" alt="DOH Logo" class="w-10 h-10 object-contain flex-shrink-0" />
+                <img :src="APP_LOGO" :alt="ORG_NAME" class="w-10 h-10 object-contain flex-shrink-0" />
 
                 <!-- Text -->
                 <div class="min-w-0">
                     <!-- Small screens (default): abbreviation -->
                     <span class="inline sm:hidden font-semibold truncate text-xs">
-                        <div class="text-sm">ICT Schedule System</div>
-                        <small class="text-xs">DOH - Ilocos Center for Health Development</small>
+                        <div class="text-sm">{{ APP_NAME }}</div>
+                        <small class="text-xs">{{ ORG_NAME }}</small>
                     </span>
 
                     <!-- sm and up: full name -->
                     <span class="hidden sm:inline font-semibold truncate">
-                        ICT Schedule System<br />
-                        <div class="text-xs">Department of Health - Ilocos Center for Health Development</div>
+                        {{ APP_NAME }}<br />
+                        <div class="text-xs">{{ ORG_NAME }}</div>
                     </span>
                 </div>
             </div>

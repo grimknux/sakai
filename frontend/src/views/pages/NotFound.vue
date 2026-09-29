@@ -1,4 +1,5 @@
 <script setup>
+import { APP_SHORT_NAME } from '@/config/app';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -41,7 +42,7 @@ function goBack() {
                         </div>
 
                         <!-- Footer -->
-                        <div class="mt-6 text-xs text-surface-500 dark:text-surface-400">Error Code: <span class="font-mono">OPMSS-404</span></div>
+                        <div class="mt-6 text-xs text-surface-500 dark:text-surface-400">Error Code: <span class="font-mono">{{ APP_SHORT_NAME }}-404</span></div>
                     </div>
                 </div>
             </div>

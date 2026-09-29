@@ -1,5 +1,6 @@
 <script setup>
 import { logout } from '@/api/auth';
+import { APP_LOGO, APP_NAME, APP_SHORT_NAME, ORG_NAME } from '@/config/app';
 import { useLayout } from '@/layout/composables/layout';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -39,17 +40,17 @@ const profile = ref([
                 <i class="pi pi-bars"></i>
             </button>
             <router-link to="/" class="layout-topbar-logo">
-                <img src="/layout/img/dohlogo.png" alt="DOH Logo" class="w-10 h-10 object-contain flex-shrink-0" />
+                <img :src="APP_LOGO" :alt="ORG_NAME" class="w-10 h-10 object-contain flex-shrink-0" />
                 <div class="min-w-0">
                     <!-- Small screens (default): abbreviation -->
                     <span class="inline sm:hidden font-semibold truncate text-xs">
-                        <div class="text-sm">ISCHED</div>
+                        <div class="text-sm">{{ APP_SHORT_NAME }}</div>
                     </span>
 
                     <!-- sm and up: full name -->
                     <span class="hidden sm:inline font-semibold truncate">
-                        ICT Schedule System <br />
-                        <div class="text-xs">Department of Health - Ilocos Center for Health Development</div>
+                        {{ APP_NAME }} <br />
+                        <div class="text-xs">{{ ORG_NAME }}</div>
                     </span>
                 </div>
             </router-link>

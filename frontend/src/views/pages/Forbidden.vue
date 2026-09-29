@@ -1,4 +1,5 @@
 <script setup>
+import { APP_SHORT_NAME } from '@/config/app';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -55,7 +56,7 @@ function goBack() {
                             <Button label="Go Back" icon="pi pi-arrow-left" severity="secondary" outlined class="w-full sm:w-auto" @click="goBack" />
                         </div>
 
-                        <div class="mt-6 text-xs text-surface-500 dark:text-surface-400">Error Code: <span class="font-mono">OPMSS-403</span></div>
+                        <div class="mt-6 text-xs text-surface-500 dark:text-surface-400">Error Code: <span class="font-mono">{{ APP_SHORT_NAME }}-403</span></div>
                     </div>
                 </div>
             </div>
