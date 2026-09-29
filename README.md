@@ -54,7 +54,7 @@ Set at least `app.baseURL`, the `database.default.*` values and `FRONTEND_URL` i
 
 `RunAllSeeders` runs every seeder once and records them in a `seeders` table, so it is safe to run again.
 
-The initial seeder creates a `superadmin` user with the password `123456`. **Log in and change it immediately**, and never deploy with the seeded password.
+Set `DEFAULT_SUPERADMIN_USERNAME`, `DEFAULT_SUPERADMIN_EMAIL` and `DEFAULT_SUPERADMIN_PASSWORD` in `.env` before seeding: the initial seeder creates the first superadmin from them and fails with a clear message if any is missing or the password is weak (8-72 characters, a letter and a number). There are no built-in defaults. You can remove the password from `.env` after seeding.
 
 ### 2. Frontend
 
@@ -152,7 +152,7 @@ npm run lint                   # in frontend/, lint and fix
 
 - `CI_ENVIRONMENT = production` and a real `encryption.key`
 - HTTPS everywhere; add `Strict-Transport-Security` and a `Content-Security-Policy` at the web server
-- Change or remove the seeded `superadmin` password
+- Use a strong `DEFAULT_SUPERADMIN_PASSWORD` when seeding, and remove it from `.env` afterwards
 - Real SMTP credentials; `.env` never committed
 - `expose_php = Off`
 - Run `php spark migrate` on deploy

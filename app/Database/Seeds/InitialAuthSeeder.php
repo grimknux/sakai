@@ -8,6 +8,30 @@ class InitialAuthSeeder extends Seeder
 {
     public function run()
     {
+        // Initial superadmin credentials come from .env; there are no defaults.
+        $adminUsername = strtolower(trim((string) env('DEFAULT_SUPERADMIN_USERNAME', '')));
+        $adminEmail    = trim((string) env('DEFAULT_SUPERADMIN_EMAIL', ''));
+        $adminPassword = (string) env('DEFAULT_SUPERADMIN_PASSWORD', '');
+
+        $problems = [];
+
+        if (strlen($adminUsername) < 3 || strlen($adminUsername) > 50) {
+            $problems[] = 'DEFAULT_SUPERADMIN_USERNAME must be 3-50 characters';
+        }
+        if (! filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+            $problems[] = 'DEFAULT_SUPERADMIN_EMAIL must be a valid email address';
+        }
+        if (
+            strlen($adminPassword) < 8 || strlen($adminPassword) > 72
+            || ! preg_match('/[A-Za-z]/', $adminPassword) || ! preg_match('/\d/', $adminPassword)
+        ) {
+            $problems[] = 'DEFAULT_SUPERADMIN_PASSWORD must be 8-72 characters with a letter and a number';
+        }
+
+        if ($problems !== []) {
+            throw new \RuntimeException('Cannot seed the superadmin. Set these in .env: ' . implode('; ', $problems) . '.');
+        }
+
         $db = \Config\Database::connect();
 
         $db->transStart();
@@ -183,9 +207,9 @@ class InitialAuthSeeder extends Seeder
         |--------------------------------------------------------------------------
         */
         $user = [
-            'username'      => 'superadmin',
-            'email'         => 'ictu@ilocos.doh.gov.ph',
-            'password_hash' => password_hash('123456', PASSWORD_DEFAULT),
+            'username'      => $adminUsername,
+            'email'         => $adminEmail,
+            'password_hash' => password_hash($adminPassword, PASSWORD_ARGON2ID),
             'firstname'     => 'System',
             'lastname'      => 'Administrator',
             'middlename'    => null,
