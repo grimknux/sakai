@@ -108,7 +108,12 @@ class AuthController extends ResourceController
         }
 
         // ---- Verify Credentials ----
-        if (! $user || ! password_verify($password, $user['password_hash'])) {
+        // Verify against a dummy Argon2id hash when the user doesn't exist,
+        // so response time doesn't reveal whether the account exists.
+        $hash = $user['password_hash'] ?? '$argon2id$v=19$m=65536,t=4,p=1$aThUSlF0ay8xSnFZdmN1Yg$PGtlkSU1wzD2ALUydN/OLD34eZ6DftD76RtAqtkS+jY';
+        $passwordValid = password_verify($password, $hash);
+
+        if (! $user || ! $passwordValid) {
             $loginAttempts->record($user ? (int) $user['id'] : null, $username, false, 'invalid_credentials');
 
             if ($user) {
@@ -215,11 +220,24 @@ class AuthController extends ResourceController
                 return $this->failUnauthorized('Not authenticated');
             }
 
+            // ---- Throttle (limits guessing of the current password) ----
+            if (! service('throttler')->check('chgpw_' . $uid, 5, 5 * MINUTE)) {
+                service('audit')->log('auth.change_password_throttled', 'users', $uid, [
+                    'ip' => $this->request->getIPAddress(),
+                ]);
+
+                return $this->respond([
+                    'status' => 429,
+                    'error' => 429,
+                    'messages' => ['error' => 'Too many attempts. Please try again in a few minutes.'],
+                ], 429);
+            }
+
             $data = $this->request->getJSON(true) ?? [];
 
-            if (! $this->validateData($data, [
+            if (! $this->validateData($data + ['username' => (string) session('username')], [
                 'current_password' => 'required|min_length[6]|max_length[72]',
-                'new_password'     => 'required|min_length[8]|max_length[72]',
+                'new_password'     => 'required|min_length[8]|max_length[72]|strong_password[username]',
                 'confirm_password' => 'required|matches[new_password]',
             ])) {
                 return $this->respond([
@@ -307,6 +325,9 @@ class AuthController extends ResourceController
             }
 
             $this->db->transCommit();
+
+            revoke_user_sessions($uid, session_id());
+            session()->regenerate(true);
 
             service('audit')->log('auth.change_password_success', 'users', $uid, [
                 'ip' => $this->request->getIPAddress(),
@@ -557,11 +578,24 @@ class AuthController extends ResourceController
     public function resetPassword()
     {
         try {
+            // ---- Throttle ----
+            $ip = $this->request->getIPAddress();
+
+            if (! service('throttler')->check('resetpw_' . sha1($ip), 10, 5 * MINUTE)) {
+                service('audit')->log('auth.password_reset_throttled', 'users', null, ['ip' => $ip]);
+
+                return $this->respond([
+                    'status' => 429,
+                    'error' => 429,
+                    'messages' => ['error' => 'Too many attempts. Please try again in a few minutes.'],
+                ], 429);
+            }
+
             $data = $this->request->getJSON(true) ?? [];
 
             if (! $this->validateData($data, [
                 'token' => 'required|min_length[20]',
-                'password' => 'required|min_length[8]|max_length[72]',
+                'password' => 'required|min_length[8]|max_length[72]|strong_password[username]',
                 'password_confirm' => 'required|matches[password]',
             ])) {
                 return $this->respond([
@@ -672,6 +706,8 @@ class AuthController extends ResourceController
             }
 
             $this->db->transCommit();
+
+            revoke_user_sessions($userId);
 
             service('audit')->log('auth.password_reset_success', 'users', $userId, [
                 'ip' => $this->request->getIPAddress(),

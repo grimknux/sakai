@@ -1,5 +1,6 @@
 <script setup>
 import { changePassword } from '@/api/auth';
+import { PASSWORD_HINT, checkPassword } from '@/lib/passwordRules';
 import { useToast } from 'primevue/usetoast';
 import { reactive, ref } from 'vue';
 
@@ -41,6 +42,12 @@ function validate() {
     if (!form.value.new_password?.trim()) {
         errors.new_password = 'New password is required.';
         ok = false;
+    } else {
+        const problem = checkPassword(form.value.new_password);
+        if (problem) {
+            errors.new_password = problem;
+            ok = false;
+        }
     }
 
     if (!form.value.confirm_password?.trim()) {
@@ -146,6 +153,7 @@ async function changePass() {
                         <small v-if="errors.new_password" class="text-red-500">
                             {{ errors.new_password }}
                         </small>
+                        <small v-else class="text-surface-500">{{ PASSWORD_HINT }}</small>
                     </div>
 
                     <div>

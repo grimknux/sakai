@@ -1,5 +1,6 @@
 <script setup>
 import { getCsrf, resetPassword } from '@/api/auth';
+import { PASSWORD_HINT, checkPassword } from '@/lib/passwordRules';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -43,8 +44,9 @@ function validate() {
         return false;
     }
 
-    if (password.value.length < 8) {
-        errors.password = 'Password must be at least 8 characters.';
+    const problem = checkPassword(password.value);
+    if (problem) {
+        errors.password = problem;
         return false;
     }
 
@@ -128,6 +130,7 @@ onMounted(async () => {
                             <small v-if="errors.password" class="block mt-1 text-red-600 dark:text-red-400 text-sm">
                                 {{ errors.password }}
                             </small>
+                            <small v-else class="block mt-1 text-surface-500 text-sm">{{ PASSWORD_HINT }}</small>
                         </div>
 
                         <div class="mb-6">

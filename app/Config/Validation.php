@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
+use App\Validation\PasswordRules;
 use CodeIgniter\Validation\StrictRules\CreditCardRules;
 use CodeIgniter\Validation\StrictRules\FileRules;
 use CodeIgniter\Validation\StrictRules\FormatRules;
@@ -22,6 +23,7 @@ class Validation extends BaseConfig
      */
     public array $ruleSets = [
         Rules::class,
+        PasswordRules::class,
         FormatRules::class,
         FileRules::class,
         CreditCardRules::class,
