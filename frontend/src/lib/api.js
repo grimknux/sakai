@@ -11,7 +11,17 @@ const api = axios.create({
     }
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(async (config) => {
+    const method = (config.method || 'get').toLowerCase();
+    const isSafe = ['get', 'head', 'options'].includes(method);
+
+    // Every state-changing request needs a CSRF token, including pre-login ones
+    // (forgot/reset password), so fetch one if we don't have it yet.
+    if (!isSafe && !localStorage.getItem('csrfToken')) {
+        const res = await axios.get(`${API_BASE_URL}/auth/csrf`, { withCredentials: true });
+        localStorage.setItem('csrfToken', res.data.csrfToken);
+    }
+
     const csrf = localStorage.getItem('csrfToken');
     if (csrf) config.headers['X-CSRF-TOKEN'] = csrf;
     return config;
@@ -26,7 +36,7 @@ api.interceptors.response.use(
         const errorData = err?.response?.data || {};
         const message = errorData?.message || errorData?.messages?.error || '';
 
-        if (status === 403 && method !== 'get' && !err.config?._csrfRetry && message.toLowerCase().includes('csrf')) {
+        if (status === 403 && method !== 'get' && !err.config?._csrfRetry && /csrf|action you requested is not allowed/i.test(message)) {
             err.config._csrfRetry = true;
 
             try {

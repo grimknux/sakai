@@ -26,6 +26,8 @@ export async function logout() {
         await getCsrf();
     }
     const res = await api.post('/auth/logout');
+    // Session (and its CSRF secret) is destroyed server-side; drop the stale token.
+    localStorage.removeItem('csrfToken');
     return res.data;
 }
 

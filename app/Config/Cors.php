@@ -76,7 +76,8 @@ class Cors extends BaseConfig
             'X-Requested-With',
             'Content-Type',
             'Accept',
-            'Authorization'
+            'Authorization',
+            'X-CSRF-TOKEN'
         ],
 
         /**

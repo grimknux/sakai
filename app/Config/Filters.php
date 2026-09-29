@@ -81,7 +81,7 @@ class Filters extends BaseFilters
         ],
         'after' => [
             // 'honeypot',
-            // 'secureheaders',
+            'secureheaders',
         ],
     ];
 
@@ -98,7 +98,13 @@ class Filters extends BaseFilters
      *
      * @var array<string, list<string>>
      */
-    public array $methods = [];
+    public array $methods = [
+        // Cookie-session API: every state-changing request must carry a CSRF token.
+        'POST'   => ['csrf'],
+        'PUT'    => ['csrf'],
+        'PATCH'  => ['csrf'],
+        'DELETE' => ['csrf'],
+    ];
 
     /**
      * List of filter aliases that should run on any
@@ -109,14 +115,5 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [
-        'csrf' => [
-        'before' => [
-            'api/auth/login',
-            'api/auth/logout',
-            // add other POST/PUT/DELETE API endpoints that use cookies
-            // 'api/*'  // (too broad unless you know what you're doing)
-        ],
-    ],
-    ];
+    public array $filters = [];
 }
